@@ -5,195 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Hotel Booking System') }}</title>
+    <title>{{ config('app.name', 'GINCE Hotel') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome for icons -->
+    <!-- Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- Custom Styles -->
     <style>
         :root {
-            --primary-color: #3f51b5;
-            --primary-dark: #303f9f;
-            --primary-light: #7986cb;
-            --accent-color: #ff4081;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --primary-color: #2c3e50;
+            --secondary-color: #e67e22;
+            --accent-color: #3498db;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
         }
         
         body {
             font-family: 'Poppins', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: var(--text-color);
-            background-color: var(--light-gray);
-        }
-        
-        main {
-            flex: 1;
-            padding-top: 2rem;
-            padding-bottom: 3rem;
-        }
-        
-        .navbar {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 1rem 0;
+            color: #333;
+            background-color: #f5f5f5;
         }
         
         .navbar-brand {
             font-weight: 700;
-            color: var(--primary-color) !important;
             font-size: 1.5rem;
+            color: var(--primary-color) !important;
+        }
+        
+        .navbar-brand span {
+            color: var(--secondary-color);
+        }
+        
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background-color: white !important;
         }
         
         .nav-link {
             font-weight: 500;
-            color: var(--text-color) !important;
-            margin: 0 0.5rem;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-link:hover, .nav-link:focus {
             color: var(--primary-color) !important;
+            position: relative;
         }
         
-        .dropdown-menu {
-            border-radius: 0.5rem;
-            box-shadow: var(--card-shadow);
-            border: none;
-            padding: 0.5rem;
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
         }
         
-        .dropdown-item {
-            padding: 0.5rem 1rem;
-            border-radius: 0.3rem;
-        }
-        
-        .dropdown-item:hover {
-            background-color: var(--primary-light);
-            color: white;
-        }
-        
-        .card {
-            border: none;
-            border-radius: 0.8rem;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-            margin-bottom: 2rem;
-        }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            font-weight: 600;
-            padding: 1.25rem 1.5rem;
-        }
-        
-        .card-body {
-            padding: 1.5rem;
+        .nav-link.active::after {
+            content: '';
+            display: block;
+            width: 50%;
+            height: 2px;
+            background-color: var(--secondary-color);
+            bottom: -2px;
+            left: 25%;
+            position: absolute;
         }
         
         .btn-primary {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
         
-        .btn-primary:hover, .btn-primary:focus {
-            background-color: var(--primary-dark);
-            border-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .btn-primary:hover {
+            background-color: #d35400;
+            border-color: #d35400;
         }
         
-        .btn-link {
-            color: var(--primary-color);
-            font-weight: 500;
-            text-decoration: none;
+        .btn-outline-primary {
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
         
-        .btn-link:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
+        .btn-outline-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
         }
         
-        .form-control {
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        
-        .form-control:focus {
-            box-shadow: 0 0 0 3px rgba(63, 81, 181, 0.25);
-            border-color: var(--primary-color);
-        }
-        
-        .alert {
-            border-radius: 0.5rem;
+        .card {
+            border-radius: 10px;
+            overflow: hidden;
             border: none;
-            padding: 1rem 1.5rem;
-            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .card-header {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .hero-section {
+            background-image: url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0;
+            position: relative;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .badge {
+            font-weight: 500;
+            padding: 6px 12px;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+        
+        .bg-secondary {
+            background-color: var(--secondary-color) !important;
+        }
+        
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+        
+        .text-secondary {
+            color: var(--secondary-color) !important;
         }
         
         footer {
-            background-color: white;
-            padding: 2rem 0;
-            box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
-        }
-        
-        .footer-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .social-links a {
-            color: var(--text-color);
-            margin-left: 1rem;
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
-        
-        .social-links a:hover {
-            color: var(--primary-color);
-        }
-        
-        @media (max-width: 768px) {
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .social-links {
-                margin-top: 1rem;
-            }
-            
-            .social-links a {
-                margin: 0 0.5rem;
-            }
+            background-color: var(--primary-color);
+            color: white;
+            padding: 40px 0;
         }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-md navbar-light">
+    <div id="app">
+        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <i class="fas fa-hotel me-2"></i>{{ config('app.name', 'Hotel Booking System') }}
+                    <i class="fas fa-hotel text-secondary me-2"></i>
+                    GINCE <span>Hotel</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -203,32 +168,39 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}">
+                            <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">
                                 <i class="fas fa-home me-1"></i>{{ __('Home') }}
                             </a>
                         </li>
+                        @auth
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->routeIs('bookings.index') ? 'active' : '' }}" href="{{ route('bookings.index') }}">
+                                <i class="fas fa-calendar-check me-1"></i>{{ __('My Bookings') }}
+                            </a>
+                        </li>
+                        @endauth
                     </ul>
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->
                         @guest
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">
-                                    <i class="fas fa-sign-in-alt me-1"></i>{{ __('Login') }}
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('register') }}">
-                                    <i class="fas fa-user-plus me-1"></i>{{ __('Register') }}
-                                </a>
-                            </li>
+                            @if (Route::has('login'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('login') }}">
+                                        <i class="fas fa-sign-in-alt me-1"></i>{{ __('Login') }}
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if (Route::has('register'))
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('register') }}">
+                                        <i class="fas fa-user-plus me-1"></i>{{ __('Register') }}
+                                    </a>
+                                </li>
+                            @endif
                         @else
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('bookings.index') }}">
-                                    <i class="fas fa-calendar-check me-1"></i>{{ __('My Bookings') }}
-                                </a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <i class="fas fa-user-circle me-1"></i>{{ Auth::user()->name }}
@@ -237,14 +209,13 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     @if(Auth::user()->is_admin)
                                     <a class="dropdown-item" href="{{ route('admin.dashboard') }}">
-                                        <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+                                        <i class="fas fa-tachometer-alt me-2"></i>{{ __('Admin Dashboard') }}
                                     </a>
-                                    <div class="dropdown-divider"></div>
                                     @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        <i class="fas fa-sign-out-alt me-1"></i>{{ __('Logout') }}
+                                        <i class="fas fa-sign-out-alt me-2"></i>{{ __('Logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -257,43 +228,54 @@
                 </div>
             </div>
         </nav>
-    </header>
 
-    <main>
-        <div class="container">
-            @if(session('success'))
-                <div class="alert alert-success" role="alert">
-                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
-                </div>
-            @endif
-
-            @if(session('error'))
-                <div class="alert alert-danger" role="alert">
-                    <i class="fas fa-exclamation-circle me-2"></i>{{ session('error') }}
-                </div>
-            @endif
-
+        <main>
             @yield('content')
-        </div>
-    </main>
-
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div>
-                    <p class="mb-0">&copy; {{ date('Y') }} Hotel Booking System. All rights reserved.</p>
+        </main>
+        
+        <footer class="mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h5 class="mb-3">GINCE Hotel</h5>
+                        <p class="mb-3">Experience luxury and comfort at GINCE Hotel. We provide exceptional service and memorable stays for all our guests.</p>
+                        <div class="social-links">
+                            <a href="#" class="me-2 text-white"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="me-2 text-white"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="me-2 text-white"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4 mb-md-0">
+                        <h5 class="mb-3">Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><a href="{{ route('home') }}" class="text-white text-decoration-none">Home</a></li>
+                            @auth
+                            <li class="mb-2"><a href="{{ route('bookings.index') }}" class="text-white text-decoration-none">My Bookings</a></li>
+                            @endauth
+                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">About Us</a></li>
+                            <li class="mb-2"><a href="#" class="text-white text-decoration-none">Contact</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb-3">Contact Info</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Hotel Street, City</li>
+                            <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> +1 (123) 456-7890</li>
+                            <li class="mb-2"><i class="fas fa-envelope me-2"></i> info@gincehotel.com</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="social-links">
-                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <hr class="my-4 bg-light">
+                <div class="text-center">
+                    <p class="mb-0">&copy; {{ date('Y') }} GINCE Hotel. All rights reserved.</p>
                 </div>
             </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    @stack('scripts')
 </body>
 </html>
