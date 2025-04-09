@@ -30,6 +30,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{booking}/payment', [BookingController::class, 'showPayment'])->name('bookings.payment');
+    Route::post('/bookings/{booking}/pay', [BookingController::class, 'pay'])->name('bookings.pay');
+    Route::get('/bookings/{booking}/receipt', [BookingController::class, 'receipt'])->name('bookings.receipt');
 });
 
 // Simple test route for admin middleware
@@ -46,6 +49,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     
     // Booking management
     Route::resource('bookings', AdminBookingController::class);
+    Route::put('/bookings/{booking}/complete', [AdminBookingController::class, 'complete'])->name('bookings.complete');
     
     // User management
     Route::resource('users', AdminUserController::class);

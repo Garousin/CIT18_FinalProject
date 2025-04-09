@@ -8,6 +8,7 @@ use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class BookingController extends Controller
 {
@@ -23,13 +24,31 @@ class BookingController extends Controller
     }
     
     /**
-     * Display a listing of the bookings.
+     * Display a listing of the bookings with optional filtering.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $bookings = Booking::with(['room', 'user'])->latest()->paginate(10);
+        $query = Booking::with(['room', 'user'])->latest();
+        
+        // Filter by status if provided
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+        
+        // Filter by date range if provided
+        if ($request->filled('from_date')) {
+            $query->where('check_in', '>=', $request->from_date);
+        }
+        
+        if ($request->filled('to_date')) {
+            $query->where('check_out', '<=', $request->to_date);
+        }
+        
+        $bookings = $query->paginate(10);
+        
         return view('admin.bookings.index', compact('bookings'));
     }
 
@@ -115,6 +134,27 @@ class BookingController extends Controller
 
         return redirect()->route('admin.bookings.index')
             ->with('success', 'Booking updated successfully');
+    }
+
+    /**
+     * Mark the booking as completed and redirect to payment.
+     *
+     * @param  \App\Models\Booking  $booking
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function complete(Booking $booking)
+    {
+        $booking->update([
+            'status' => 'completed',
+            'updated_at' => Carbon::now()
+        ]);
+        
+        // Log the action
+        \Log::info('Booking #'.$booking->id.' marked as completed by admin user #'.Auth::id());
+        
+        // Redirect to the payment page with a success message
+        return redirect()->route('bookings.payment', $booking)
+            ->with('success', 'Booking #'.$booking->id.' has been marked as completed. Proceed with payment.');
     }
 
     /**
